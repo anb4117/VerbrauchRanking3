@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3f52538520744c78b2a1f5e9e7f52af8" Name="Diagram1" >
+        <EntityTypeShape EntityType="VerbrauchModel3.User" Width="1.5" PointX="1.125" PointY="1.25" />
+        <EntityTypeShape EntityType="VerbrauchModel3.Wohnung" Width="1.5" PointX="3.375" PointY="1.25" />
+        <EntityTypeShape EntityType="VerbrauchModel3.Verbrauch" Width="1.5" PointX="5.75" PointY="1.25" />
+        <AssociationConnector Association="VerbrauchModel3.mietet" />
+        <AssociationConnector Association="VerbrauchModel3.vermietet" />
+        <AssociationConnector Association="VerbrauchModel3.verbraucht" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

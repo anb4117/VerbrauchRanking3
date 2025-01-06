@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="VerbrauchModel3StoreContainer" CdmEntityContainer="VerbrauchModel3Container">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(VerbrauchModel3.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nachname" ColumnName="Nachname" />
+          <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+          <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+          <ScalarProperty Name="RoleVermieter" ColumnName="RoleVermieter" />
+          <ScalarProperty Name="RoleMieter" ColumnName="RoleMieter" />
+          <ScalarProperty Name="RoleDM" ColumnName="RoleDM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WohnungSet">
+      <EntityTypeMapping TypeName="IsTypeOf(VerbrauchModel3.Wohnung)">
+        <MappingFragment StoreEntitySet="WohnungSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fläche" ColumnName="Fläche" />
+          <ScalarProperty Name="Südseite" ColumnName="Südseite" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VerbrauchSet">
+      <EntityTypeMapping TypeName="IsTypeOf(VerbrauchModel3.Verbrauch)">
+        <MappingFragment StoreEntitySet="VerbrauchSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Wasser" ColumnName="Wasser" />
+          <ScalarProperty Name="Strom" ColumnName="Strom" />
+          <ScalarProperty Name="Warmwasser" ColumnName="Warmwasser" />
+          <ScalarProperty Name="Wärme" ColumnName="Wärme" />
+          <ScalarProperty Name="Monat" ColumnName="Monat" />
+          <ScalarProperty Name="Jahr" ColumnName="Jahr" />
+          <ScalarProperty Name="WohnungId" ColumnName="WohnungId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="mietet" TypeName="VerbrauchModel3.mietet" StoreEntitySet="WohnungSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Mieter_Id" />
+      </EndProperty>
+      <EndProperty Name="Wohnung">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Mieter_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

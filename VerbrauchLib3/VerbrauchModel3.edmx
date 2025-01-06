@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="VerbrauchModel3.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="VerbrauchModel3StoreContainer">
+    <EntitySet Name="UserSet" EntityType="VerbrauchModel3.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WohnungSet" EntityType="VerbrauchModel3.Store.WohnungSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VerbrauchSet" EntityType="VerbrauchModel3.Store.VerbrauchSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="mietet" Association="VerbrauchModel3.Store.mietet">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Wohnung" EntitySet="WohnungSet" />
+    </AssociationSet>
+    <AssociationSet Name="vermietet" Association="VerbrauchModel3.Store.vermietet">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Wohnung" EntitySet="WohnungSet" />
+    </AssociationSet>
+    <AssociationSet Name="verbraucht" Association="VerbrauchModel3.Store.verbraucht">
+      <End Role="Wohnung" EntitySet="WohnungSet" />
+      <End Role="Verbrauch" EntitySet="VerbrauchSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nachname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Vorname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IBAN" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RoleVermieter" Type="bit" Nullable="false" />
+    <Property Name="RoleMieter" Type="bit" Nullable="false" />
+    <Property Name="RoleDM" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WohnungSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fläche" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Südseite" Type="bit" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Mieter_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="VerbrauchSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Wasser" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Strom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Warmwasser" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Wärme" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Monat" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Jahr" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WohnungId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="mietet">
+    <End Role="User" Type="VerbrauchModel3.Store.UserSet" Multiplicity="0..1" />
+    <End Role="Wohnung" Type="VerbrauchModel3.Store.WohnungSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Wohnung">
+        <PropertyRef Name="Mieter_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="vermietet">
+    <End Role="User" Type="VerbrauchModel3.Store.UserSet" Multiplicity="1" />
+    <End Role="Wohnung" Type="VerbrauchModel3.Store.WohnungSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Wohnung">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="verbraucht">
+    <End Role="Wohnung" Type="VerbrauchModel3.Store.WohnungSet" Multiplicity="1" />
+    <End Role="Verbrauch" Type="VerbrauchModel3.Store.VerbrauchSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Wohnung">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Verbrauch">
+        <PropertyRef Name="WohnungId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="VerbrauchModel3" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="VerbrauchModel3Container" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserSet" EntityType="VerbrauchModel3.User" />
+          <EntitySet Name="WohnungSet" EntityType="VerbrauchModel3.Wohnung" />
+          <EntitySet Name="VerbrauchSet" EntityType="VerbrauchModel3.Verbrauch" />
+          <AssociationSet Name="mietet" Association="VerbrauchModel3.mietet">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Wohnung" EntitySet="WohnungSet" />
+          </AssociationSet>
+          <AssociationSet Name="vermietet" Association="VerbrauchModel3.vermietet">
+            <End Role="User" EntitySet="UserSet" />
+            <End Role="Wohnung" EntitySet="WohnungSet" />
+          </AssociationSet>
+          <AssociationSet Name="verbraucht" Association="VerbrauchModel3.verbraucht">
+            <End Role="Wohnung" EntitySet="WohnungSet" />
+            <End Role="Verbrauch" EntitySet="VerbrauchSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nachname" Type="String" Nullable="false" />
+          <Property Name="Vorname" Type="String" Nullable="false" />
+          <Property Name="IBAN" Type="String" Nullable="false" />
+          <Property Name="RoleVermieter" Type="Boolean" Nullable="false" />
+          <Property Name="RoleMieter" Type="Boolean" Nullable="false" />
+          <Property Name="RoleDM" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Wohnung" Relationship="VerbrauchModel3.mietet" FromRole="User" ToRole="Wohnung" />
+          <NavigationProperty Name="Wohnungen" Relationship="VerbrauchModel3.vermietet" FromRole="User" ToRole="Wohnung" />
+        </EntityType>
+        <EntityType Name="Wohnung">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Fläche" Type="String" Nullable="false" />
+          <Property Name="Südseite" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Mieter" Relationship="VerbrauchModel3.mietet" FromRole="Wohnung" ToRole="User" />
+          <NavigationProperty Name="Vermieter" Relationship="VerbrauchModel3.vermietet" FromRole="Wohnung" ToRole="User" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Verbrauch" Relationship="VerbrauchModel3.verbraucht" FromRole="Wohnung" ToRole="Verbrauch" />
+        </EntityType>
+        <EntityType Name="Verbrauch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Wasser" Type="String" Nullable="false" />
+          <Property Name="Strom" Type="String" Nullable="false" />
+          <Property Name="Warmwasser" Type="String" Nullable="false" />
+          <Property Name="Wärme" Type="String" Nullable="false" />
+          <Property Name="Monat" Type="String" Nullable="false" />
+          <Property Name="Jahr" Type="String" Nullable="false" />
+          <NavigationProperty Name="Wohnung" Relationship="VerbrauchModel3.verbraucht" FromRole="Verbrauch" ToRole="Wohnung" />
+          <Property Name="WohnungId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="mietet">
+          <End Type="VerbrauchModel3.User" Role="User" Multiplicity="0..1" />
+          <End Type="VerbrauchModel3.Wohnung" Role="Wohnung" Multiplicity="*" />
+        </Association>
+        <Association Name="vermietet">
+          <End Type="VerbrauchModel3.User" Role="User" Multiplicity="1" />
+          <End Type="VerbrauchModel3.Wohnung" Role="Wohnung" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Wohnung">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="verbraucht">
+          <End Type="VerbrauchModel3.Wohnung" Role="Wohnung" Multiplicity="1" />
+          <End Type="VerbrauchModel3.Verbrauch" Role="Verbrauch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Wohnung">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Verbrauch">
+              <PropertyRef Name="WohnungId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="VerbrauchModel3StoreContainer" CdmEntityContainer="VerbrauchModel3Container">
+    <EntitySetMapping Name="UserSet">
+      <EntityTypeMapping TypeName="IsTypeOf(VerbrauchModel3.User)">
+        <MappingFragment StoreEntitySet="UserSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Nachname" ColumnName="Nachname" />
+          <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+          <ScalarProperty Name="IBAN" ColumnName="IBAN" />
+          <ScalarProperty Name="RoleVermieter" ColumnName="RoleVermieter" />
+          <ScalarProperty Name="RoleMieter" ColumnName="RoleMieter" />
+          <ScalarProperty Name="RoleDM" ColumnName="RoleDM" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WohnungSet">
+      <EntityTypeMapping TypeName="IsTypeOf(VerbrauchModel3.Wohnung)">
+        <MappingFragment StoreEntitySet="WohnungSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Fläche" ColumnName="Fläche" />
+          <ScalarProperty Name="Südseite" ColumnName="Südseite" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="VerbrauchSet">
+      <EntityTypeMapping TypeName="IsTypeOf(VerbrauchModel3.Verbrauch)">
+        <MappingFragment StoreEntitySet="VerbrauchSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Wasser" ColumnName="Wasser" />
+          <ScalarProperty Name="Strom" ColumnName="Strom" />
+          <ScalarProperty Name="Warmwasser" ColumnName="Warmwasser" />
+          <ScalarProperty Name="Wärme" ColumnName="Wärme" />
+          <ScalarProperty Name="Monat" ColumnName="Monat" />
+          <ScalarProperty Name="Jahr" ColumnName="Jahr" />
+          <ScalarProperty Name="WohnungId" ColumnName="WohnungId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="mietet" TypeName="VerbrauchModel3.mietet" StoreEntitySet="WohnungSet">
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Mieter_Id" />
+      </EndProperty>
+      <EndProperty Name="Wohnung">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Mieter_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

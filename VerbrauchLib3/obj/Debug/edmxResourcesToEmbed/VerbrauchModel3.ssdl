@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="VerbrauchModel3.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="VerbrauchModel3StoreContainer">
+    <EntitySet Name="UserSet" EntityType="VerbrauchModel3.Store.UserSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WohnungSet" EntityType="VerbrauchModel3.Store.WohnungSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="VerbrauchSet" EntityType="VerbrauchModel3.Store.VerbrauchSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="mietet" Association="VerbrauchModel3.Store.mietet">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Wohnung" EntitySet="WohnungSet" />
+    </AssociationSet>
+    <AssociationSet Name="vermietet" Association="VerbrauchModel3.Store.vermietet">
+      <End Role="User" EntitySet="UserSet" />
+      <End Role="Wohnung" EntitySet="WohnungSet" />
+    </AssociationSet>
+    <AssociationSet Name="verbraucht" Association="VerbrauchModel3.Store.verbraucht">
+      <End Role="Wohnung" EntitySet="WohnungSet" />
+      <End Role="Verbrauch" EntitySet="VerbrauchSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="UserSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Nachname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Vorname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IBAN" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="RoleVermieter" Type="bit" Nullable="false" />
+    <Property Name="RoleMieter" Type="bit" Nullable="false" />
+    <Property Name="RoleDM" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WohnungSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fläche" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Südseite" Type="bit" Nullable="false" />
+    <Property Name="UserId" Type="int" Nullable="false" />
+    <Property Name="Mieter_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="VerbrauchSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Wasser" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Strom" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Warmwasser" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Wärme" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Monat" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Jahr" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="WohnungId" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="mietet">
+    <End Role="User" Type="VerbrauchModel3.Store.UserSet" Multiplicity="0..1" />
+    <End Role="Wohnung" Type="VerbrauchModel3.Store.WohnungSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Wohnung">
+        <PropertyRef Name="Mieter_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="vermietet">
+    <End Role="User" Type="VerbrauchModel3.Store.UserSet" Multiplicity="1" />
+    <End Role="Wohnung" Type="VerbrauchModel3.Store.WohnungSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="User">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Wohnung">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="verbraucht">
+    <End Role="Wohnung" Type="VerbrauchModel3.Store.WohnungSet" Multiplicity="1" />
+    <End Role="Verbrauch" Type="VerbrauchModel3.Store.VerbrauchSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Wohnung">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Verbrauch">
+        <PropertyRef Name="WohnungId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
